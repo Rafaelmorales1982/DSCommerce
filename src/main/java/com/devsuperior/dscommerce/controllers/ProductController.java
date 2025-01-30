@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,13 @@ public class ProductController {
 			.buildAndExpand(dto.getId()).toUri();
 			return ResponseEntity.created(uri).body(dto);
 		}
+	
+	//Atualizando um registro no banco
+	 @PutMapping(value = "/{id}")
+	    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+	        dto = service.update(id, dto);
+	        return ResponseEntity.ok(dto);
+	    }
 		
 
 }

@@ -41,18 +41,44 @@ public class ProductService {
 		
 	}
 	
-	@Transactional
-	public ProductDTO insert(ProductDTO dto) { //inserindo no banco de dados
-		Product entity = new Product();
+	//Criando um método para não repetir os mesmos campos assim ficar com código mais limpo
+	private void copyDtoToEntity(ProductDTO dto, Product entity) {
 		entity.setName(dto.getName());//copiando para entity
 		entity.setDescription(dto.getDescription());
 		entity.setPrice(dto.getPrice());
-	
 		entity.setImgUrl(dto.getImgUrl());
+		
+	}
+	
+	//inserir dados
+	@Transactional
+	public ProductDTO insert(ProductDTO dto) { //inserindo no banco de dados
+		Product entity = new Product();
+		//instanciando o método
+		copyDtoToEntity(dto , entity);
+		
+		//salvando no banco no repositiry
+		entity = repository.save(entity);
+		 return new ProductDTO(entity);
+	}
+	
+	//Update dados
+	@Transactional   
+	public ProductDTO update(Long id, ProductDTO dto) { //atualizando no banco de dados
+		Product entity = repository.getReferenceById(id);//instanciando um id para atualizar o banco 
+		
+		//instanciando o método
+		copyDtoToEntity(dto , entity);
+		
 	
 		//salvando no banco no repositiry
 		entity = repository.save(entity);
 		 return new ProductDTO(entity);
 	}
+
+
+
+	
+
 	
 }
