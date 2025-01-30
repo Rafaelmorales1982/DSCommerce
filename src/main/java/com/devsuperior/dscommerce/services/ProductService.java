@@ -77,7 +77,12 @@ public class ProductService {
 	}
 
 
-
+	//deletando um registro por id
+	@Transactional
+	public void delete(Long id) {
+		repository.deleteById(id);
+		
+	}
 	
 
 	
